@@ -1,0 +1,18 @@
+{
+  "name": "query",
+  "version": "1.0.0",
+  "description": "Query that uses both services",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "author": "Elzohery",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

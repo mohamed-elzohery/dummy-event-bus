@@ -1,0 +1,3 @@
+[submodule "dummy-event-bus"]
+	path = dummy-event-bus
+	url = https://github.com/mohamed-elzohery/dummy-event-bus.git
