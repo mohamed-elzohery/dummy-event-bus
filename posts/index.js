@@ -24,16 +24,11 @@ app.post('/posts', async (req, res) => {
     }
 
     // Emitting Event To Bus
-    try{
-        const {data} = await axios.post('http://localhost:4005/events', {
+    const {data} = await axios.post('http://localhost:4005/events', {
             type: 'CREATE POST',
             data: {id, title}
-        });
-        console.log(data);
-    }catch(err){
-        console.log(err.message);
-        console.log("Error is here");
-    }
+    });
+    console.log(data);
     res.status(201).send(posts[id]);
 });
 
