@@ -8,14 +8,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+let events = [];
+
 app.post('/events', async(req, res) => {
     const action = req.body;
-    await axios.post('http://localhost:4000/events', action);
-    await axios.post('http://localhost:4001/events', action);
-    await axios.post('http://localhost:4002/events', action);
-    await axios.post('http://localhost:4003/events', action);
+    events = events.concat([action]);
+    try{
+        await Promise.all([
+            await axios.post('http://localhost:4000/events', action),
+            await axios.post('http://localhost:4001/events', action),
+            await axios.post('http://localhost:4002/events', action),
+            await axios.post('http://localhost:4003/events', action),
+        ]);
+    }catch(err){
+        console.log(err.message);
+    }
+    
 
     res.status(201).send({status: 'OK'});
+});
+
+
+app.get('/events', (req, res) => {
+    res.send(events);
 });
 
 app.listen(4005, () => {

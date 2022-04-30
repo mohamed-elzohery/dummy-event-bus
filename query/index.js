@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const EventHandler = require('./EventHandler');
+const {default: axios} = require('axios');
 
 const app = express();
 
@@ -14,28 +16,16 @@ app.get('/posts', (req, res) => {
 
 app.post('/events', (req, res) => {
     const {data, type} = req.body;
-
-    if(type === 'CREATE POST'){
-        const {id, title} = data;
-        postsWithComments[id] = {
-            id, title, comments: []
-        };
-    };
-
-    if(type === 'CREATE COMMENT'){
-        const {postId, content, id, status} = data;
-        postsWithComments[postId].comments = postsWithComments[postId].comments.concat([{id, content}]);
-    };
-
-
-    
-    if(type === 'MODERATE COMMENT'){
-        const {postId, id, status} = data;
-        postsWithComments[postId].comments.find(comment => comment.id === id).status = status; 
-    }
-
-    console.log(postsWithComments);
+    EventHandler(type, data, postsWithComments);
     res.send({});
 });
 
-app.listen(4002, () => console.log('Query is running on 4002'));
+app.listen(4002, async () => {
+    console.log('Query is running on 4002');
+    const {data} = await axios.get('http://localhost:4005/events');
+    data.forEach(element => {
+        const {type, data} = element;
+        console.log(`processing ${element}`);
+        EventHandler(type, data, postsWithComments);
+    });
+});
