@@ -15,10 +15,10 @@ app.post('/events', async(req, res) => {
     events = events.concat([action]);
     try{
         await Promise.all([
-            await axios.post('http://localhost:4000/events', action),
-            await axios.post('http://localhost:4001/events', action),
-            await axios.post('http://localhost:4002/events', action),
-            await axios.post('http://localhost:4003/events', action),
+            await axios.post('http://posts-clusterip-srv:4000/events', action),
+            await axios.post('http://comments-clusterip-srv:4001/events', action),
+            await axios.post('http://query-clusterip-srv:4002/events', action),
+            await axios.post('http://moderation-clusterip-srv:4003/events', action),
         ]);
     }catch(err){
         console.log(err.message);

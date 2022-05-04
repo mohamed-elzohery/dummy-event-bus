@@ -24,7 +24,7 @@ app.post('/posts', async (req, res) => {
     }
 
     // Emitting Event To Bus
-    const {data} = await axios.post('http://localhost:4005/events', {
+    const {data} = await axios.post('http://event-bus-srv:4005/events', {
             type: 'CREATE POST',
             data: {id, title}
     });
